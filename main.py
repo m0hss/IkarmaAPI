@@ -1,5 +1,6 @@
-from fastapi import FastAPI, Depends, Request, Path, HTTPException, status
+from fastapi import FastAPI, Depends, Request, Path, HTTPException, status, Response
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from starlette.responses import RedirectResponse
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from database import  get_db_session
@@ -12,23 +13,16 @@ from Routers.login import oauth2_scheme
 
 app = FastAPI(
     title= 'IkarmaAPI',
-    description= 'Made By FastAPI ❤️❤️',
+    description= 'Builded with FastAPI ❤️❤️',
     version ="1.0",
 )
 
 app.include_router(login.router)
 
-
-# def get_db_session():
-#     try:
-#         db = SessionLocal()
-#         yield db
-#     finally:
-#         db.close()
     
-# @app.get("/")
-# def main():
-#     return RedirectResponse(url="/docs/")
+@app.get("/")
+def main():
+    return RedirectResponse(url="/docs/")
 
 
 # Get All users
