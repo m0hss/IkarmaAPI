@@ -7,4 +7,5 @@ from passlib.context import CryptContext
 
 
 class Post(Base):
+    __tablename__ = "posts"
     pass

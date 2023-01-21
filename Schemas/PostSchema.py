@@ -7,4 +7,5 @@ from passlib.context import CryptContext
 
 
 class Post(BaseModel):
+    id: Optional[int]
     pass
