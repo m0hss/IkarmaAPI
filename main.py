@@ -15,6 +15,7 @@ app = FastAPI(
     title= 'IkarmaAPI',
     description= 'Builded with FastAPI ❤️❤️',
     version ="1.0",
+    contact= {"email":"contact@me.io"}
 )
 
 app.include_router(login.router)
@@ -22,7 +23,7 @@ app.include_router(login.router)
     
 @app.get("/")
 def main():
-    return RedirectResponse(url="/docs/")
+    return RedirectResponse(url="/docs")
 
 
 # Get All users

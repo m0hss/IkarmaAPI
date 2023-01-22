@@ -36,7 +36,7 @@ class UserUpdate(User):
     last_name: Optional[str] = None
     thumbnail: Optional[str] = None
     username: Optional[str] = None
-    password: Optional[str] = None
+    password_hash: Optional[str] = None
     city: Optional[str] = None
     state: Optional[str] = None
     country: Optional[str] = None
