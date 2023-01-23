@@ -8,6 +8,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+scripts/
+include/
 build/
 develop-eggs/
 dist/
@@ -25,8 +27,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
-/scripts
-/include
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -52,7 +52,6 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
-*.cfg
 
 # Translations
 *.mo
@@ -130,6 +129,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+*.cfg
 
 # Spyder project settings
 .spyderproject

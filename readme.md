@@ -41,4 +41,3 @@ The key features are:
 * **Standards-based**: Based on (and fully compatible with) the open standards for APIs: <a href="https://github.com/OAI/OpenAPI-Specification" class="external-link" target="_blank">OpenAPI</a> (previously known as Swagger) and <a href="https://json-schema.org/" class="external-link" target="_blank">JSON Schema</a>.
 
 <small>* estimation based on tests on an internal development team, building production applications.</small>
-mysql://b7890773c1228a:181896d6@eu-cdbr-west-03.cleardb.net/heroku_fb822d9648d206b?reconnect=true
