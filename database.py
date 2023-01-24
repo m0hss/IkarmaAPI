@@ -7,7 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 USER_DATABASE_URL = "postgresql://m0:vMqDPtG4avjyxRzX7vOpIlfan8QqMfBF@dpg-cf7ch9mn6mplrj35m8u0-a.frankfurt-postgres.render.com/ikarma_api_pgsql"
 # USER_DATABASE_URL = "mysql+mysqlconnector://root@localhost:3306/ikarma"
 
-USER_DATABASE_URL = "mysql+mysqlconnector://root:qzDjhBdNJdVa0IHcSdJ9@containers-us-west-38.railway.app:6121/railway"
+#USER_DATABASE_URL = "mysql+mysqlconnector://root:qzDjhBdNJdVa0IHcSdJ9@containers-us-west-38.railway.app:6121/railway"
 
 engine = create_engine(
     USER_DATABASE_URL
