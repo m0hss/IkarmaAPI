@@ -31,7 +31,7 @@ async def login_for_access_token(db:Session=Depends(get_db_session), form_data:O
     if not check_password:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
     
-    access_token_expires = timedelta(minutes=os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES'))
+    access_token_expires = timedelta(minutes=int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')))
     access_token = create_access_token(
         data={"username": user.username}, expires_delta=access_token_expires
     )

@@ -4,8 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 import os
 import dotenv
 
-
-
 dotenv.load_dotenv()
 
 engine = create_engine(
