@@ -1,7 +1,10 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, validator
 from datetime import date
 from typing import Optional, List, Literal
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+from Schemas import PostSchema
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -21,10 +24,12 @@ class User(BaseModel):
     phone: int
     registred_on: date = None
     is_active: Optional[bool] = False
+    posts: Optional[List[PostSchema.Post]] = []
     
     @staticmethod
     def set_password_hash(password):
         return pwd_context.hash(password)
+    
     
     class Config:
         orm_mode= True
@@ -52,6 +57,6 @@ class UserUpdate(User):
 class reponse(BaseModel):
     msg: str
 
-class Token(BaseModel):
-    access_token: str
-    token_type: str
+# class Token(BaseModel):
+#     access_token: str
+#     token_type: str

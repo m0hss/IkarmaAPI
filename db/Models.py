@@ -1,6 +1,6 @@
-from sqlalchemy.schema import Column
-from sqlalchemy.types import String, Integer, Text, Date, Boolean
-from database import Base, engine
+from sqlalchemy import Column, String, Integer, Text, DateTime, Date, Boolean, Float, ForeignKey, LargeBinary, Sequence
+from sqlalchemy.orm import relationship
+from .database import Base, engine
 from passlib.hash import bcrypt
 from passlib.context import CryptContext
 
@@ -23,10 +23,8 @@ class User(Base):
     phone = Column(String(24))
     registred_on = Column(Date)
     is_active = Column(Boolean)
+    posts = relationship('PostModel.Post', back_populates="user")
     
-    
-    def active(self):
-        self.is_active = True
     
     @staticmethod
     def get_password_hash(password):
@@ -35,5 +33,23 @@ class User(Base):
     @staticmethod
     def verify_password_hash(plain_password, hashed_password):
         return pwd_context.verify(plain_password, hashed_password)
-
+    
+    
+    
+class Post(Base):
+    __tablename__ = "posts"
+    id = Column(String(36), primary_key=True, index=True)
+    title = Column(String(100))
+    description = Column(Text)
+    path = Column(String(50), nullable=False)
+    created_at = Column(DateTime)
+    size = Column(Float)
+    likes = Column(Integer)
+    views = Column(Integer)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    
+    user = relationship('UserModel.User', back_populates='posts')
+    
+    
+    
 Base.metadata.create_all(bind=engine)  
