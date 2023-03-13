@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, Request, Path, HTTPException, status, Response
+from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
-from Routers import Login, User, Post
+from routers import login, user, post
 
 
 
@@ -12,9 +13,12 @@ app = FastAPI(
     docs_url ="/"
 )
 
-app.include_router(Login.router)
-app.include_router(User.router)
-app.include_router(Post.router)
+
+# app.mount("/static", StaticFiles(directory="static"), name="static")
+
+app.include_router(login.router)
+app.include_router(user.router)
+app.include_router(post.router)
 
 # @app.get("/")
 # async def main():

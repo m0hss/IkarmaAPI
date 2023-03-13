@@ -1,15 +1,15 @@
 from fastapi import FastAPI, Depends, HTTPException, status, APIRouter
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from db import Models
+from db import models
 from db.database import get_db_session
-from Schemas import UserSchema
+from schemas import user_schema
 from sqlalchemy.orm import Session
 from datetime import datetime, timedelta
 from typing import Union
 from jose import jwt, JWTError
 import dotenv
 import os
-
+from sqlalchemy.orm.collections import InstrumentedList
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
@@ -19,26 +19,25 @@ dotenv.load_dotenv()
 # Login Form OAuth2 Obviously a POST Request
 @router.post("/login", tags=['login'])
 async def login_for_access_token(db:Session=Depends(get_db_session), form_data:OAuth2PasswordRequestForm = Depends()):
-    user = db.query(Models.User).filter(Models.User.username==form_data.username).scalar()    
+    user = db.query(models.User).filter(models.User.email==form_data.username).scalar()    
     if not user:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     
-    check_password  = user.verify_password_hash(form_data.password, user.password_hash)
-    print(user.is_active)
-    # user.is_active = True
-    # print(user.is_active)
+    check_password  = user.verify_password_hash(form_data.password, user.password)
+
     
     if not check_password:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect username or password")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     
     access_token_expires = timedelta(minutes=int(os.getenv('ACCESS_TOKEN_EXPIRE_MINUTES')))
     access_token = create_access_token(
-        data={"username": user.username}, expires_delta=access_token_expires
+        data={"email": user.email}, expires_delta=access_token_expires
     )
     return {"access_token": access_token, "token_type": "bearer"}
-
-
-
+    # response = user_schema.reponse(msg= f'access_token: {access_token}')
+    
+    
+    
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None):
     to_encode = data.copy()
     if expires_delta:
@@ -58,42 +57,39 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db:Session=Depen
     )
     try:
         payload = jwt.decode(token, os.getenv('SECRET_KEY'), algorithms=[os.getenv('ALGORITHM')])
-        username: str = payload.get("username")
-        is_active: bool = payload.get('is_active')
-        print(is_active)
-        if username is None:
+        email: str = payload.get("email")
+        # is_active: bool = payload.get('is_active')
+        # print(is_active)
+        if email is None:
             raise credentials_exception
-        print(username)
+        print(f'current_user: {email}')
+        print(f'token = <{token}>')
+        print("************************************************************")
         # token_data = TokenData(username=username)
     except JWTError:
         raise credentials_exception
-    user = db.query(Models.User).filter(Models.User.username==username).one()
-    print(user.is_active)
-    user.is_active = True
-    print(user.is_active)
-    db.commit()
-    db.refresh(user)
+    user = db.query(models.User).filter(models.User.email==email).one()
     
-
     if user is None:
         raise credentials_exception
+    # print(vars(user))
     return vars(user)
 
 
-# async def get_current_active_user(current_user: User = Depends(get_current_user)):
-#     if current_user.disabled:
-#         raise HTTPException(status_code=400, detail="Inactive user")
-#     return current_user
+def to_dict_list(instrumented_list):
+    return [obj.__dict__ for obj in instrumented_list]
 
 
-
-@router.get("/users/me/", tags=['login'], response_model=UserSchema.User)
-async def read_users_me(current_user: UserSchema.User = Depends(get_current_user)):
-    return current_user
+@router.get("/users/me/", tags=['login'], response_model=user_schema.User)
+async def read_users_me(db: Session = Depends(get_db_session),current_user: user_schema.User = Depends(get_current_user)):
+    user = db.query(models.User).filter_by(id=current_user['id']).first()
+    for post in user.posts:
+        print(post.title)
+    return user
 
 
 @router.post("/logout", tags=['login'])
-def logout(db: Session = Depends(get_db_session), current_user: UserSchema.User = Depends(get_current_user), form_data: OAuth2PasswordRequestForm = Depends()):
+def logout(db: Session = Depends(get_db_session), current_user: user_schema.User = Depends(get_current_user), form_data: OAuth2PasswordRequestForm = Depends()):
     
 
     # Set the user's is_active status to False
