@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, Request, Path, HTTPException, status, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse
-from routers import login, user, post
+from Routers import login, user, post
 
 
 
