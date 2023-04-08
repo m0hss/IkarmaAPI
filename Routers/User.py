@@ -184,10 +184,7 @@ def delete_user(db:Session=Depends(get_db_session), current_user: user_schema.Us
 @router.get("/users/avatar/{user_id}", tags=["Users"])
 async def read_user_avatar(user_id: int, db: Session = Depends(get_db_session)):
     user = db.query(models.User).filter(models.User.id == user_id).first()
-    #print(user.avatar.rsplit(".",1)[0])
     try:
-     
-            # resize_n_circle(user.avatar)
         return FileResponse(user.avatar, media_type=f'image/{user.avatar.rsplit(".",1)[1]}')
     except:
         return FileResponse("images/avatar/default1.png", media_type="image/png")

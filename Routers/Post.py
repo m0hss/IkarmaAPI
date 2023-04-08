@@ -29,10 +29,11 @@ ALLOWED_EXTENSIONS = {"mp4", "mkv", "flv", "avi", "mov"}
 THUMBNAIL_FOLDER = "images/thumbnail"
 
 
-
+## Allowed Extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
+## Duration video vile with cv2 lib
 def get_duration(file: UploadFile):
     with tempfile.NamedTemporaryFile(mode='wb') as f:
         f.write(file.file.read())
@@ -40,7 +41,7 @@ def get_duration(file: UploadFile):
         duration = round(data.get(cv2.CAP_PROP_FRAME_COUNT) / data.get(cv2.CAP_PROP_FPS))
         file.file.seek(0)
     return duration
-
+## Size of the video File
 def get_size(file: UploadFile):
     file.file.seek(0,2)
     size = file.file.tell()

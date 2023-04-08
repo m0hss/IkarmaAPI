@@ -7,6 +7,7 @@ from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+## User Table
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
@@ -34,7 +35,7 @@ class User(Base):
         return pwd_context.verify(plain_pwd, hashed_pwd)
     
     
-    
+## Post Table   
 class Post(Base):
     __tablename__ = "posts"
     id = Column(String(36), primary_key=True, index=True)
