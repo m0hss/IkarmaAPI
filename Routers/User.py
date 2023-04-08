@@ -70,7 +70,7 @@ def read_data(file_path):
                 break
             yield data
             
-## Circular Avatar
+## Circular Avatar form
 def resize_n_circle(path, size=(150, 150)):
     img = Image.open(path)
     # Crop the image to a square
