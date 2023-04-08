@@ -44,6 +44,13 @@ class ReadPost(Post):
     
     class Config:
         orm_mode= True
+           
+
+
+class PostUpdate(BaseModel):
+    title: Optional[str] = None
+    description: Optional[str] = None
+
         
 class reponse(BaseModel):
     msg: str

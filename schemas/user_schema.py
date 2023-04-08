@@ -58,7 +58,7 @@ class UserUpdate(BaseModel):
     # thumbnail: Optional[str] = None
     username: Optional[str] = None
     bio: Optional[str] = None
-    # password_hash: Optional[str] = None
+    password: Optional[str] = None
     state: Optional[str] = None
     country: Optional[str] = None
     email: Optional[str] = None
