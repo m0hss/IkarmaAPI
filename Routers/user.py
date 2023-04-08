@@ -8,7 +8,7 @@ from db.database import get_db_session, SessionLocal
 from typing import List, Optional, Dict, Any
 from schemas import user_schema
 from db import models
-from routers.login import get_current_user, oauth2_scheme
+from .login import get_current_user, oauth2_scheme
 from PIL import Image, ImageDraw
 import secrets
 from datetime import date
