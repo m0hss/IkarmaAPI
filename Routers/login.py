@@ -81,18 +81,18 @@ def to_dict_list(instrumented_list):
 
 
 @router.get("/users/me/", tags=['login'], response_model=user_schema.User)
-async def read_users_me(db: Session = Depends(get_db_session),current_user: user_schema.User = Depends(get_current_user)):
+async def read_user_me(db: Session = Depends(get_db_session),current_user: user_schema.User = Depends(get_current_user)):
     user = db.query(models.User).filter_by(id=current_user['id']).first()
     for post in user.posts:
         print(post.title)
     return user
 
 
-@router.post("/logout", tags=['login'])
-def logout(db: Session = Depends(get_db_session), current_user: user_schema.User = Depends(get_current_user), form_data: OAuth2PasswordRequestForm = Depends()):
+# @router.post("/logout", tags=['login'])
+# def logout(db: Session = Depends(get_db_session), current_user: user_schema.User = Depends(get_current_user), form_data: OAuth2PasswordRequestForm = Depends()):
     
 
-    # Set the user's is_active status to False
-    update_user_activity(db, user_id, False)
+#     # Set the user's is_active status to False
+#     update_user_activity(db, user_id, False)
 
-    return {"message": "User logged out"}
+#     return {"message": "User logged out"}

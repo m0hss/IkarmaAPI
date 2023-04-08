@@ -57,6 +57,7 @@ def get_thumbnail_url(file: UploadFile):
             print(file.filename)
             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
             thumbnail_url = f'{THUMBNAIL_FOLDER}/thumb_{timestamp}.jpg'
+            # resized_frame = cv2.resize(frame, (0, 0), fx = 0.1, fy = 0.1, interpolation=cv2.INTER_AREA)
             cv2.imwrite(thumbnail_url, frame)
             capture.release()
             file.file.seek(0)
@@ -92,8 +93,9 @@ async def create_video_post(title: str = Form(...), description: str = Form(...)
     if not allowed_file(file.filename):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="error: Invalid file type. Allowed types are: .{}".format(", .".join(ALLOWED_EXTENSIONS)))
     
-    if get_duration(file) > 30:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="error: File size too large")
+    ## Check the Video Length
+    # if get_duration(file) > 30:
+    #     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="error: File size too large")
     
     print("********************************************")
     print(file_path)
@@ -172,22 +174,48 @@ async def read_all_videos(db: Session = Depends(get_db_session)):
     for post in posts:
         print(vars(post))
     return posts
+
+###########################################
+# Patch Post 
+###########################################
+@router.patch("/post/{post_id}", tags=['Posts'], response_model= user_schema.ReadPosts)
+async def edit_post(post_id: str, values: post_schema.PostUpdate = None, db:Session=Depends(get_db_session)):  
+    try:
+        # print(values)
+        if values:
+            post = db.query(models.Post).filter_by(id = post_id).first()
+            print(post.title)
+            print(post.description)
+            print(post.thumbnail)
+            for key, value in values.dict().items():
+                print(key,value)
+                setattr(post, key, value) if value else None
+        
+            
+        db.commit()
+        db.refresh(post)
+        # reponse = user_schema.reponse(msg= f'{user_id} updated with Success !')
+        return post
+    except exc.IntegrityError as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'PROBLEM HERE !')
+
 ########################################################
 ## Delete Post
 ########################################################
-@router.delete('/posts', tags=['Posts'])
-def delete_post(title:str, db:Session=Depends(get_db_session), current_user: user_schema.User = Depends(get_current_user)):
+@router.delete('/posts/{post_id}', tags=['Posts'])
+def delete_post(post_id:str, db:Session=Depends(get_db_session), current_user: user_schema.User = Depends(get_current_user)):
     try:
-        post = db.query(models.Post).filter(models.Post.title == title).first()
+        post = db.query(models.Post).filter_by(id = post_id).first()
        
         Path(post.url).unlink(missing_ok=True)
         Path(post.thumbnail).unlink(missing_ok=True)
         db.delete(post)
         db.commit()
-        reponse = post_schema.reponse(msg= f'Post {title} deleted !')
+        reponse = post_schema.reponse(msg= f'Post {post_id} deleted !')
         return reponse   
     except:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'post: {title} does not exist !')
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f'post: {post_id} does not exist !')
  
  
 ##################################################################################
@@ -208,11 +236,17 @@ async def read_post_video(title: str, db: Session = Depends(get_db_session)):
 ## Get Post thumbnail from Title
 ################################################################################
 @router.get("/posts/thumbnail/{title}", tags=["Posts"])
-async def read_post_video(title: str, db: Session = Depends(get_db_session)):
+async def read_post_thumbnail(title: str, db: Session = Depends(get_db_session)):
     post = db.query(models.Post).filter(models.Post.title == title).first()
     print(post)
     print(post)
     if post and post.title:
+        img = cv2.imread(post.thumbnail)
+        print("### IMg ###: ", img)
+        resized_img = cv2.resize(img, (212, 380), interpolation=cv2.INTER_AREA)
+        
+           
+        
         return FileResponse(post.thumbnail, media_type=f'image/jpg')
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= 'No Video Found ! ') 

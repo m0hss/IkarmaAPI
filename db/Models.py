@@ -15,7 +15,7 @@ class User(Base):
     last_name = Column(String(20), nullable=False)
     avatar = Column(String(50))
     username = Column(String(20), unique=True)
-    bio = Column(String(100))
+    bio = Column(String(250))
     password = Column(String(128), nullable=False)
     state = Column(String(20))
     country = Column(String(20))
