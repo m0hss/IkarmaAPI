@@ -19,13 +19,12 @@ dotenv.load_dotenv()
 # Login Form OAuth2 Obviously a POST Request
 @router.post("/login", tags=['login'])
 async def login_for_access_token(db:Session=Depends(get_db_session), form_data:OAuth2PasswordRequestForm = Depends()):
-    user = db.query(models.User).filter(models.User.email==form_data.username).one()    
+    
+    user = db.query(models.User).filter(models.User.email==form_data.username).first()    
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     
     check_password  = user.verify_password_hash(form_data.password, user.password)
-
-    
     if not check_password:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Incorrect email or password")
     

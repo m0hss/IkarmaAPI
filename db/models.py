@@ -51,5 +51,6 @@ class Post(Base):
     
     user = relationship('User', back_populates='posts')
 
+
 ## Create bind engine  
 Base.metadata.create_all(bind=engine)  
