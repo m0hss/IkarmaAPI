@@ -1,8 +1,9 @@
+import os
+import dotenv
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import os
-import dotenv
+
 
 dotenv.load_dotenv()
 
@@ -22,3 +23,4 @@ def get_db_session():
         
 # meta = MetaData()
 # connexion = engine.connect()
+# Base.metadata.create_all(bind=engine)
