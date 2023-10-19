@@ -8,7 +8,7 @@ from sqlalchemy.ext.declarative import declarative_base
 dotenv.load_dotenv()
 
 engine = create_engine(
-   'mysql+mysqlconnector://nandnt3kz4k1kf99:l27kiziewok596ol@esilxl0nthgloe1y.chr7pe7iynqr.eu-west-1.rds.amazonaws.com:3306/zk6isj2zbdq8mq1h'
+    os.getenv('USER_DATABASE_URL')
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
