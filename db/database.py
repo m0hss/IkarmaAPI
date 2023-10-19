@@ -6,10 +6,11 @@ from sqlalchemy.ext.declarative import declarative_base
 
 
 dotenv.load_dotenv()
-
-engine = create_engine(
-    os.getenv('USER_DATABASE_URL')
-)
+db = os.getenv('USER_DATABASE_URL')
+print(db)
+print(db)
+print(db)
+engine = create_engine(os.getenv('USER_DATABASE_URL'))
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
