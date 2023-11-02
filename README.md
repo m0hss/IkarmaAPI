@@ -11,7 +11,7 @@
 
 ---
 
-- **REST API** serves a desktop app
+- **REST API**
 
 - **Documentation**: [AWS](http://ec2-16-170-146-217.eu-north-1.compute.amazonaws.com/redoc) || [heroku](https://ec2-16-170-146-217.eu-north-1.compute.amazonaws.com/redoc)
   
