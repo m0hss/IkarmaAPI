@@ -13,7 +13,7 @@
 
 - **REST API**
 
-- **Documentation**: [AWS](http://ec2-16-170-146-217.eu-north-1.compute.amazonaws.com/redoc) || [heroku](https://ec2-16-170-146-217.eu-north-1.compute.amazonaws.com/redoc)
+- **Documentation**: [AWS](http://ec2-16-170-146-217.eu-north-1.compute.amazonaws.com/redoc) || [heroku](https://ikapi-94b1570fbebb.herokuapp.com/redoc)
   
 ## Requirements
 
