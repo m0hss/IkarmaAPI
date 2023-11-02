@@ -18,7 +18,7 @@
 ## Requirements
 
 - [**FastAPI**;](https://github.com/tiangolo/fastap) a modern, high-performance web framework for building APIs with Python 3.7+ based on standard Python type hints.**
-- [**MySQL Connector/Python**](https://dev.mysql.com/doc/connector-python/en/)
+- [**MySQL-Connector-Python**](https://dev.mysql.com/doc/connector-python/en/)
 
 
 
@@ -57,8 +57,6 @@ To run this project, you will need to add the following environment variables to
  <a href="https://github.com/tiangolo/fastap" target="_blank">[https://fastapi.tiangolo.com](https://github.com/tiangolo/fastap)</a>
  
  <a href="https://docs.pydantic.dev/latest" target="_blank">https://docs.pydantic.dev/latest</a>
- 
- <a href="https://www.starlette.io/" target="_blank">https://www.starlette.io/</a>
  
  <a href="https://www.uvicorn.org" target="_blank">https://www.uvicorn.org/</a>
  
