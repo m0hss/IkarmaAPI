@@ -58,6 +58,8 @@ To run this project, you will need to add the following environment variables to
  
  <a href="https://docs.pydantic.dev/latest" target="_blank">https://docs.pydantic.dev/latest</a>
  
+ <a href="https://www.starlette.io/" target="_blank">https://www.starlette.io/</a>
+ 
  <a href="https://www.uvicorn.org" target="_blank">https://www.uvicorn.org/</a>
  
  <a href="https://dev.mysql.com/doc/connector-python/en/" target="_blank">MySQL Connector/Python Developer Guide</a>
